@@ -49,15 +49,33 @@ describe('Servidor PLANTILLA:', () => {
    * Tests para acceso a la BBDD
    */
   describe('Acceso a BBDD:', () => {
-    it('Devuelve ¿¿¿ VALOR ESPERADO ??? al consultar mediante test_db', (done) => {
+    it('Devuelve  al consultar mediante test_db', (done) => {
       supertest(app)
         .get('/test_db')
         .expect(200)
         .expect('Content-Type', /json/)
         .expect(function (res) {
           //console.log( res.body ); // Para comprobar qué contiene exactamente res.body
-          assert(res.body.data[0].data.hasOwnProperty('¿¿¿ PROPIEDAD ???'));
-          assert(res.body.data[0].data.nombre === "¿¿¿ VALOR ESPERADO ???");
+          assert(res.body.data[0].data.hasOwnProperty(nombre));
+          assert(res.body.data[0].data.nombre === "");
+
+        })
+        .end((error) => { error ? done.fail(error) : done(); }
+        );
+    });
+
+  })
+
+  describe('Listado:', () => {
+    it('Devuelve  al consultar mediante getTodos', (done) => {
+      supertest(app)
+        .get('/getTodos')
+        .expect(200)
+        .expect('Content-Type', /json/)
+        .expect(function (res) {
+          //console.log( res.body ); // Para comprobar qué contiene exactamente res.body
+          assert(res.body.data[0].data.hasOwnProperty(nombre));
+          assert(res.body.data[0].data.nombre != "");
 
         })
         .end((error) => { error ? done.fail(error) : done(); }

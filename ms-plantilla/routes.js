@@ -33,7 +33,16 @@ router.get("/acercade", async (req, res) => {
     }
 });
 
-
+/**
+ * Ruta getTodos
+ */
+router.get("/getTodos", async (req, res) => {
+    try {
+        await callbacks.getTodos(req, res)
+    } catch (error) {
+        console.log(error);
+    }
+});
 
 /**
  * Test de conexión a la BBDD

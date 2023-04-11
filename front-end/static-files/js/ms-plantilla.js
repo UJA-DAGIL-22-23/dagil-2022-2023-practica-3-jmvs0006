@@ -42,7 +42,7 @@ Plantilla.descargarRuta = async function (ruta, callBackFn) {
     let datosDescargados = null
     if (response) {
         datosDescargados = await response.json()
-        callBackFn(datosDescargados)
+        callBackFn(datosDescargados.data)
     }
 }
 
@@ -91,7 +91,36 @@ Plantilla.mostrarAcercaDe = function (datosDescargados) {
     `;
     Frontend.Article.actualizar("Plantilla Acerca de", mensajeAMostrar)
 }
+Plantilla.cuerpoTr = function (e) {
+    const d=e.data
+    const f=e.Fecha
+    const j=e.jugadores
+    let msj ="";
+    msj +=`<tr>
+    <td>${d.Nombre}</td>
+    <td>${d.ligas_ganadas}</td>
+    <td>${f.Dia}/${f.Mes}/${f.Anno}</td>
+    <td>${j[1]},${j[2]},${j[3]}</td>
+    </tr>
+    `;
+    return msj;
 
+}
+
+Plantilla.mostrarGetTodos = function (datosDescargados) {
+
+    const mensajeAMostrar = "";
+    msj +=`<table class="listado-proyectos">
+    <thead>
+    <th>Nombre</th><th>Ligas ganadas</th><th>Jugadores</th><th>Fecha Creación</th>
+    </thead>
+    <tbody>
+`;
+    datosDescargados.forEach(e => mensajeAMostrar += Plantilla.cuerpoTr(e));
+
+    msj += `</tbody></table>`;
+    Frontend.Article.actualizar("Listado de equipos", mensajeAMostrar)
+}
 
 /**
  * Función principal para responder al evento de elegir la opción "Home"
@@ -105,6 +134,10 @@ Plantilla.procesarHome = function () {
  */
 Plantilla.procesarAcercaDe = function () {
     this.descargarRuta("/plantilla/acercade", this.mostrarAcercaDe);
+}
+
+Plantilla.procesarGetTodos = function () {
+    this.descargarRuta("/plantilla/getTodos", this.mostrarGetTodos);
 }
 
 
